@@ -31,13 +31,23 @@ function removeAds() {
                 timestamp: timestamp
             }
 
+            // Remove break breaks
             storage = JSON.parse(localStorage.getItem("genie-productions")) || {};
             storage[idBase] = storage[idBase] || {};
             storage[idBase][idIndex] = storage[idBase][idIndex] || {};
             storage[idBase][idIndex].breaksWatched = breaksWatched;
+            
+            // Remove intro ads
+            let introAdKey = Object.keys(storage)[0]
+            let introAdIndex = Object.keys(storage[startAdKey])[1];
+            if (storage[introAdKey]) {
+                storage[introAdKey]['timestamp'] = timestamp;
+                storage[introAdKey][introAdIndex]['progress']['time'] = null;
+                storage[introAdKey][introAdIndex]['progress']['percentage'] = 1;
+            }
 
             localStorage.setItem("genie-productions", JSON.stringify(storage));
-
+            console.log("Removed intro ads")
             console.log("Removed ad breaks 1-20")
 
         } else {
